@@ -3,10 +3,11 @@ var https = require('https');
 var Promise = require('promise');
 var config = require('./config');
 
-function FbAPI() {};
+function FbAPI() {
+  this.base = 'https://graph.facebook.com/'
+    + (config.version || '');
+};
 
-FbAPI.prototype.base = 'https://graph.facebook.com/'
-  + (config.version || '');
 FbAPI.prototype.requestJson = function(url) {
   console.log('Getting data from ' + url);
   return new Promise(function (resolve, reject) {
@@ -30,18 +31,11 @@ FbAPI.prototype.requestJson = function(url) {
   });
 }
 
-FbAPI.prototype.callFacebookAPI = function(path, params) {
-    var url = 'https://graph.facebook.com/v2.0';
-    path = (path[0] == '/' ? path: '/' + path);
-    params.access_token = config.access_token;
-    url += path + '?' + querystring.stringify(params);
-
-    return requestJson(url);
-};
-
 FbAPI.prototype.get = function(path, params) {
   var url = this.base;
+  params = params || {};
   path = (path[0] == '/' ? path: '/' + path);
+  params.access_token = config.access_token;
   url += path + '?' + querystring.stringify(params);
 
   return this.requestJson(url).then(function(data) {
@@ -51,11 +45,6 @@ FbAPI.prototype.get = function(path, params) {
     console.error('Error get: ' + err);
   })
 };
-
-FbAPI.prototype.me = (function() {
-  this.base += '/me';
-  return this;
-}).call(FbAPI.prototype)
 
 module.exports = FbAPI;
 
