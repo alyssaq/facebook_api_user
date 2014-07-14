@@ -1,0 +1,12 @@
+{
+  "name": "facebook_api_user",
+  "version": "0.0.1",
+  "description": "Get a user's facebook details from the Graph API",
+  "main": "sample.js",
+  "author": "Alyssa Quek",
+  "repository": "https://github.com/alyssaq/facebook_user_info",
+  "license": "MIT",
+  "dependencies": {
+    "promise": "^5.0.0"
+  }
+}
